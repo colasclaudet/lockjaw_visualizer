@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/billboard.fsh</file>
+        <file>shaders/billboard.vsh</file>
+        <file>shaders/billboard_m.fsh</file>
+        <file>shaders/billboard_m.vsh</file>
+        <file>shaders/simple.fsh</file>
+        <file>shaders/simple.vsh</file>
+        <file>textures/ground.jpg</file>
+        <file>textures/puff.png</file>
+        <file>textures/seal.png</file>
+        <file>textures/play.png</file>
+        <file>textures/pause.png</file>
+        <file>textures/stop.png</file>
+    </qresource>
+</RCC>
