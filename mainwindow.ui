@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>799</width>
-    <height>792</height>
+    <height>802</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -383,6 +383,8 @@
     <addaction name="actionStart"/>
     <addaction name="actionPause"/>
     <addaction name="actionStop"/>
+    <addaction name="actionDynamic_Backgroud"/>
+    <addaction name="actionFull_Screen"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
@@ -405,6 +407,16 @@
   <action name="actionPause">
    <property name="text">
     <string>Pause</string>
+   </property>
+  </action>
+  <action name="actionDynamic_Backgroud">
+   <property name="text">
+    <string>Dynamic Backgroud</string>
+   </property>
+  </action>
+  <action name="actionFull_Screen">
+   <property name="text">
+    <string>Full Screen</string>
    </property>
   </action>
  </widget>

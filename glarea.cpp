@@ -121,6 +121,11 @@ void GLArea::set_pause(bool _pause)
     this->pause = _pause;
 }
 
+void GLArea::set_dynamic_background(bool _db)
+{
+    this->dynamic_b = _db;
+}
+
 
 /**
  * @brief GLArea::initializeGL - initialisation de l'environnement 3D
@@ -198,6 +203,11 @@ void GLArea::tearGLObjects()
         delete textures[i];
 }
 
+bool GLArea::getDynamic_b() const
+{
+    return dynamic_b;
+}
+
 /**
  * @brief GLArea::resizeGL - modification de la taille de la fenêtre
  * @param w - width
@@ -214,7 +224,7 @@ void GLArea::resizeGL(int w, int h)
  */
 void GLArea::paintGL()
 {
-    if(!this->list_vert.isEmpty() && !pause)
+    if(!this->list_vert.isEmpty() && !pause && dynamic_b)
     {
         if(this->r_light >= 1.0)
         {
@@ -271,6 +281,10 @@ void GLArea::paintGL()
         //this->b_light = fmod(this->b_light + 0.006,1.0) ;
         //this->g_light = fmod(this->g_light + 0.007,1.0) ;
         glClearColor(r_light,g_light,b_light,a_light);
+    }
+    else if(!dynamic_b)
+    {
+        glClearColor(0.0,0.0,0.0,0.0);
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -6,17 +6,23 @@ Timer_audio::Timer_audio(QMediaPlayer * m, QSlider * slide, QLCDNumber * num)
     this->slider = slide;
     this->number = num;
 
-    this->slider->setMaximum(player->duration()/1000);
-    this->slider->repaint();
 }
 
 void Timer_audio::run()
 {
     qDebug()<<"Thread Start";
-    while(true)
+    while(!stop)
     {
+        while(!play)
+        {
+
+        }
+        if(this->player->position()>1000 && this->player->position()<1100)
+            this->slider->setMaximum(player->duration()/1000);
         this->slider->setValue(this->player->position()/1000);
-        this->number->display(static_cast<int>(player->position()/1000));
+        QString disp = QString::number(static_cast<int>((player->position()/1000)/60)) + ":" + QString::number(static_cast<int>((player->position()/1000)%60));
+
+        this->number->display(disp);
     }
 }
 

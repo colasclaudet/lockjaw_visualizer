@@ -15,11 +15,20 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(ui->commandLinkButton_play_pause, SIGNAL(clicked()), this, SLOT(start()));
     connect(ui->commandLinkButton_stop,SIGNAL(clicked()),this,SLOT(stop()));
     connect(ui->commandLinkButton_start,SIGNAL(clicked()),this,SLOT(start()));
+    connect(ui->actionDynamic_Backgroud,SIGNAL(triggered()),this,SLOT(dynamic_backgroud()));
+    connect(ui->actionFull_Screen,SIGNAL(triggered()),this,SLOT(full_screen()));
     ui->commandLinkButton_stop->setHidden(true);
     ui->commandLinkButton_play_pause->setHidden(true);
     ui->glarea->setHidden(true);
     ui->lcdNumber->setHidden(true);
     ui->slider_time->setHidden(true);
+
+    QPalette pal = palette();
+
+    // set black background
+    pal.setColor(QPalette::Background, Qt::black);
+    ui->lcdNumber->setAutoFillBackground(true);
+    ui->lcdNumber->setPalette(pal);
 
 }
 
@@ -67,7 +76,7 @@ void MainWindow::start()
         ui->commandLinkButton_start->setHidden(true);
         ui->glarea->draw_bounding_box(50.0,50.0,50.0,-50.0,-50.0,-50.0);
         ui->glarea->set_particle(50.0,50.0,50.0,-50.0,-50.0,-50.0);
-
+        ui->actionStart->setVisible(false);
     }
 
 }
@@ -102,6 +111,9 @@ void MainWindow::stop()
         ui->commandLinkButton_start->setHidden(false);
         ui->lcdNumber->setHidden(true);
         ui->slider_time->setHidden(true);
+        this->time_au->stop = true;
+        this->threadPool->clear();
+        ui->actionStart->setVisible(true);
     }
 
 }
@@ -134,6 +146,58 @@ void MainWindow::pause()
 
 }
 
+void MainWindow::dynamic_backgroud()
+{
+    if(ui->glarea->getDynamic_b())
+    {
+        ui->glarea->set_dynamic_background(false);
+        ui->actionDynamic_Backgroud->setText("Dynamic Background desactived");
+    }
+    else
+    {
+        ui->glarea->set_dynamic_background(true);
+        ui->actionDynamic_Backgroud->setText("Dynamic Background actived");
+    }
+}
+
+void MainWindow::full_screen()
+{
+    if(this->isFullScreen)
+    {
+        this->isFullScreen = false;
+        ui->actionFull_Screen->setText("Full Screen");
+    }
+    else
+    {
+        this->isFullScreen = true;
+        ui->actionFull_Screen->setText("Minimize Screen");
+    }
+
+    if(this->isInit)
+    {
+        if(!this->isFullScreen)
+        {
+            ui->commandLinkButton_stop->setHidden(false);
+            ui->commandLinkButton_play_pause->setHidden(false);
+            ui->dial_volume->setHidden(false);
+            ui->progressBar->setHidden(false);
+            ui->lcdNumber->setHidden(false);
+            ui->slider_time->setHidden(false);
+            ui->statusbar->setHidden(false);
+        }
+        else
+        {
+            ui->commandLinkButton_stop->setHidden(true);
+            ui->commandLinkButton_play_pause->setHidden(true);
+            ui->dial_volume->setHidden(true);
+            ui->progressBar->setHidden(true);
+            ui->lcdNumber->setHidden(true);
+            ui->slider_time->setHidden(true);
+            ui->statusbar->setHidden(true);
+        }
+    }
+}
+
 
 
 
@@ -151,7 +215,24 @@ void MainWindow::on_slider_time_sliderMoved(int position)
 {
     if(this->isInit)
     {
-        ui->lcdNumber->display(position);
+        QString disp = QString::number(static_cast<int>(position/60)) + ":" + QString::number(static_cast<int>(position%60));
+        ui->lcdNumber->display(disp);
         player->setPosition(position * 1000);
+
+
     }
+}
+
+void MainWindow::on_slider_time_sliderPressed()
+{
+    time_au->play = false;
+    player->pause();
+    ui->glarea->set_pause(true);
+}
+
+void MainWindow::on_slider_time_sliderReleased()
+{
+    player->play();
+    time_au->play = true;
+    ui->glarea->set_pause(false);
 }

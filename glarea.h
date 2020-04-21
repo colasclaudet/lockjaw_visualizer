@@ -30,6 +30,9 @@ public:
     void draw_bounding_box(GLfloat xmax =0.0f, GLfloat ymax=0.0f, GLfloat zmax=0.0f, GLfloat xmin=0.0f, GLfloat ymin=0.0f, GLfloat zmin=0.0f);
     void set_particle(GLfloat xmax =0.0f, GLfloat ymax=0.0f, GLfloat zmax=0.0f, GLfloat xmin=0.0f, GLfloat ymin=0.0f, GLfloat zmin=0.0f);
     void set_pause(bool _pause);
+    void set_dynamic_background(bool _db);
+    bool getDynamic_b() const;
+
 protected slots:
     void onTimeout();
 
@@ -82,6 +85,7 @@ private:
     QList<Plane> list_plane;
 
     bool pause = false;
+    bool dynamic_b = true;
 };
 
 

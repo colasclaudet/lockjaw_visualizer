@@ -25,6 +25,8 @@ public slots:
     void load();
     void stop();
     void pause();
+    void dynamic_backgroud();
+    void full_screen();
 
 
 private slots:
@@ -32,12 +34,17 @@ private slots:
 
     void on_slider_time_sliderMoved(int position);
 
+    void on_slider_time_sliderPressed();
+
+    void on_slider_time_sliderReleased();
+
 private:
     Ui::MainWindow *ui;
     QString file = "";
     QMediaPlayer * player;
     bool isInit = false;
     bool isPause = false;
+    bool isFullScreen = false;
     QThreadPool *threadPool;
     Timer_audio * time_au;
 
